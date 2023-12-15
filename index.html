@@ -28,6 +28,23 @@
     <script defer src="./script.js"></script>
   </head>
   <body>
+    <div class="score">
+      <h2 class="score__title">счет</h2>
+      <div class="score__row">
+        <div class="score__item player__1">
+          <span class="score__name" id="player__name-1"></span
+          ><span id="player__score-1" class="score__count">0</span>
+        </div>
+        <div class="score__item player__1">
+          <span class="score__name" id="player__name-2"></span
+          ><span id="player__score-2" class="score__count">0</span>
+        </div>
+      </div>
+      <div class="score__item draw">
+        <span class="score__name">ничья</span
+        ><span class="score__count" id="draw__score">0</span>
+      </div>
+    </div>
     <div class="container">
       <ul class="cards">
         <li id="1" class="card">
@@ -90,6 +107,7 @@
         </li>
       </ul>
     </div>
+    <div><button class="restart__btn">начать заново</button></div>
     <div class="modal__wrapper">
       <div class="modal">
         <div class="block__1">
