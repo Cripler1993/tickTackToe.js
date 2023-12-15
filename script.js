@@ -14,16 +14,22 @@ let playerScore1 = document.querySelector("#player__score-1");
 let playerScore2 = document.querySelector("#player__score-2");
 let drawScore = document.querySelector("#draw__score");
 let restartBtn = document.querySelector(".restart__btn");
+let turnName = document.querySelector("#turn__name");
 
 let modalwrapper = document.querySelector(".modal__wrapper");
 let winner = document.querySelector(".winner__name");
 let closeBtn = document.querySelector(".modal__btn");
 
-let player1 = prompt("Введите имя первого игрока?");
-let player2 = prompt("Введите имя второго игрока?");
+let player1 = prompt("Введите имя первого игрока?") || "игрок 1";
+let player2 = prompt("Введите имя второго игрока?") || "игрок 2";
 playerName1.innerHTML = player1;
 playerName2.innerHTML = player2;
 let currentPlayer = 1; //1 - x; 2 - o
+if (currentPlayer == 1) {
+  turnName.innerHTML = player1;
+} else {
+  turnName.innerHTML = player2;
+}
 let gameEnd = false;
 
 // в переменные определяем вставку из html которая содержит в себе картинку крестика и нолика
@@ -66,12 +72,15 @@ function makeMove(event) {
       container.innerHTML = cross;
       checkWin();
       currentPlayer = 2;
+      turnName.innerHTML = player2;
     } else {
       container.innerHTML = circle;
       checkWin();
       currentPlayer = 1;
+      turnName.innerHTML = player1;
     }
     card.classList.add("flip");
+    checkDraw();
   }
 }
 
@@ -110,6 +119,9 @@ function checkWin() {
       back2.innerHTML == cross &&
       back3.innerHTML == cross
     ) {
+      cell1.classList.add("shake");
+      cell2.classList.add("shake");
+      cell3.classList.add("shake");
       youWin();
       break;
     } else if (
@@ -117,6 +129,9 @@ function checkWin() {
       back2.innerHTML == circle &&
       back3.innerHTML == circle
     ) {
+      cell1.classList.add("shake");
+      cell2.classList.add("shake");
+      cell3.classList.add("shake");
       youWin();
       break;
     }
@@ -126,6 +141,17 @@ function checkWin() {
 
 // })
 
+function checkDraw() {
+  let flipCards = document.querySelectorAll(".flip");
+  let cardCount = flipCards.length;
+  if (cardCount == 9) {
+    winner.innerHTML = "дружбой";
+    drawScore.innerHTML = Number(drawScore.innerHTML) + 1;
+    modalwrapper.classList.add("active");
+    gameEnd = true;
+  }
+}
+
 function youWin() {
   if (currentPlayer == 1) {
     winner.innerHTML = player1;
@@ -134,7 +160,9 @@ function youWin() {
     winner.innerHTML = player2;
     playerScore2.innerHTML = Number(playerScore2.innerHTML) + 1;
   }
-  modalwrapper.classList.add("active");
+  setTimeout(function () {
+    modalwrapper.classList.add("active");
+  }, 1500);
   gameEnd = true;
 }
 
@@ -142,18 +170,9 @@ function restartGame() {
   currentPlayer = 1;
   gameEnd = false;
   cards.forEach(function (elem) {
-    elem.classList.remove("flip");
+    elem.classList.remove("flip", "shake");
     let container = elem.querySelector(".back");
     container.innerHTML = "";
   });
   restartBtn.classList.remove("active");
 }
-
-// анимация победы
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.from(".block__1", {
-  duration: 1,
-  y: "-100%",
-  scrollTrigger: ".modal__btn",
-});
