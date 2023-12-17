@@ -113,7 +113,7 @@ body {
   border: 1px solid black;
   outline: 1px solid black;
   color: #fff;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   border-radius: 5px;
 }
 .score__title {
@@ -143,6 +143,16 @@ body {
   text-transform: uppercase;
 }
 .draw .score__count {
+  font-size: 18px;
+}
+.turn {
+  padding: 15px 20px;
+  background-color: rgb(205, 75, 9);
+  border: 1px solid black;
+  outline: 1px solid black;
+  color: #fff;
+  border-radius: 5px;
+  margin-bottom: 15px;
   font-size: 18px;
 }
 .container {
@@ -294,6 +304,7 @@ body {
   background-color: rgb(205, 75, 9);
   color: #fff;
   border-radius: 8px;
+  font-size: 15px;
 }
 .shake {
   animation: shake 1s ease-in-out;

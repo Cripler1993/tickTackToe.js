@@ -20,6 +20,13 @@ let modalwrapper = document.querySelector(".modal__wrapper");
 let winner = document.querySelector(".winner__name");
 let closeBtn = document.querySelector(".modal__btn");
 
+// в переменную player1 с помощью метода prompt присваиваем имя игрока или если false, то по умолчанию "игрок 1"
+// в переменную player2 с помощью метода prompt присваиваем имя игрока или если false, то по умолчанию "игрок 2"
+// во внутреннее содержимое документа у playerName 1 и 2 присваиваем значение переменной player 1 и 2
+// переменной currentPlayer присваиваем значение 1
+// открываем инструкцию if где если переменная currentPlayer == 1, то во внутреннее содержимое документа у turnName
+// присваиваем значение из переменной player1 (показывает на экране кто ходит), в другом случае из player2
+
 let player1 = prompt("Введите имя первого игрока?") || "игрок 1";
 let player2 = prompt("Введите имя второго игрока?") || "игрок 2";
 playerName1.innerHTML = player1;
@@ -30,6 +37,9 @@ if (currentPlayer == 1) {
 } else {
   turnName.innerHTML = player2;
 }
+
+// переменная gameEnd имеет изначальное значение false
+
 let gameEnd = false;
 
 // в переменные определяем вставку из html которая содержит в себе картинку крестика и нолика
@@ -46,23 +56,31 @@ cards.forEach(function (elem) {
   elem.addEventListener("click", makeMove);
 });
 
+// при клике на closeBtn (крестик) снимаем активный класс у переменной modalWrapper
+//  и добавляем его у restartBtn
+
 closeBtn.addEventListener("click", function () {
   modalwrapper.classList.remove("active");
   restartBtn.classList.add("active");
 });
 
+// добавляем переменной restartBtn обработчик события и параметром функцию restartGame
+
 restartBtn.addEventListener("click", restartGame);
 
 //локальную переменную card определяем как цель клика
 // определяем переменную container как элемент back из html
-// если переменная контейнер пустая
-// и если переменная currentPlayer равна 1, то добавляем в html переменной container переменную cross(крестик)
+// если переменная контейнер пустая и переменная gameEnd == false
+// и если переменная currentPlayer равна 1, то добавляем в html переменной container переменную cross(изображение крестика)
 // используем функцию checkWin
 // и переменной currentPlayer присваиваем значение 2
+// внутреннему значению документа у переменной turnName присваиваем значение из переменной player 2
 // в другом случае добавляем в html переменной container переменную circle(круг)
 // используем функцию checkWin
 // и переменной currentPlayer присваиваем значение 1
+// внутреннему значению документа у переменной turnName присваиваем значение из переменной player 1
 // добавялем переменной card активный класс flip
+// добавляем функцию checkDraw
 
 function makeMove(event) {
   let card = event.target;
@@ -111,6 +129,7 @@ function checkWin() {
     let cell1 = document.getElementById(id1);
     let cell2 = document.getElementById(id2);
     let cell3 = document.getElementById(id3);
+    console.log(cell1);
     let back1 = cell1.querySelector(".back");
     let back2 = cell2.querySelector(".back");
     let back3 = cell3.querySelector(".back");
@@ -141,6 +160,14 @@ function checkWin() {
 
 // })
 
+// объявляем функцию checkDraw на проверку ничьей
+// в переменную присваиваем все элементы у которых есть класс flip
+// в переменую cardCount присваиваем значение длины массива flipCards
+// если cardCount == 9, то во внутренний текст документа у переменной winner будет присвоено "дружбой"
+// во внутренний текст документа у переменной drawScore  заносим приведение этого же текста к числу и плюсуем единицу
+// добавляем активный класс модальному окну
+// переменной gameEnd присваиваем true (для блокировки поля)
+
 function checkDraw() {
   let flipCards = document.querySelectorAll(".flip");
   let cardCount = flipCards.length;
@@ -151,6 +178,14 @@ function checkDraw() {
     gameEnd = true;
   }
 }
+
+// объявляем функцию youWin
+// в которой если переменная currentPlayer == 1, то
+// во внутренний текст документ переменной winner заносим значение переменной player 1
+// во внутренний текст документа у переменной playerScore1 заносим приведение этого же текста к числу и плюсуем единицу
+// в другом случае все то же самое, но для второго игрока
+// применяем функцию setTimeout и осуществляем задержку добавления модальному окну активного класса в 1500 мс
+// переменной gameEnd присваиваем значение true
 
 function youWin() {
   if (currentPlayer == 1) {
@@ -165,6 +200,14 @@ function youWin() {
   }, 1500);
   gameEnd = true;
 }
+
+// объявляем функцию restartGame
+// присваиваем переменной currentPlayer значение 1
+// переменной gameEnd присваиваем значение true
+// в цикле для всех переменных card убираем класс flip и shake
+// опускаемся с помощью querySelector до элемента с классом бэк и заносим его значение в переменную container
+// далее внутреннее содержимое документа у переменной container делаем пустым
+// у кнопки перезагрузки убираем активный класс
 
 function restartGame() {
   currentPlayer = 1;
